@@ -2,6 +2,13 @@ doctype 5
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/vendor/style.css')
+    link(rel='stylesheet', href='/stylesheets/vendor/bootstrap.min.css')
+    script(src='/javascripts/vendor/jquery-1.8.3.min.js')
+    script(src='/javascripts/vendor/underscore-min.js')
+    script(src='/javascripts/vendor/backbone-min.js')
+    script(src='/javascripts/server_log.js')
+    script(src='/socket.io/socket.io.js')
   body
     block content
+

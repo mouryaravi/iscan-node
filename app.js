@@ -1,9 +1,13 @@
 var express = require('express')
   , logs_controller = require('./controllers/logs_controller')
   , http = require('http')
-  , path = require('path');
+  , io = require('socket.io')
+  , path = require('path')
+  , socket_io_controller = require('./controllers/socket_io_controller');
 
 var app = express();
+var http_server = http.createServer(app);
+var io_listener = io.listen(http_server);
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -25,6 +29,8 @@ app.get('/', logs_controller.index);
 app.get('/servers', logs_controller.findAllAvailableServers);
 
 
-http.createServer(app).listen(app.get('port'), function(){
+http_server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+socket_io_controller.setListeners(io_listener);

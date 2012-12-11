@@ -3,3 +3,15 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  div#serverlist
+  div#logs
+  script
+    $(document).ready(function() {
+      var socket = io.connect('/');
+      socket.emit('server', {name: 'qa1'});
+      console.log("sending qa1 message...");
+      socket.on('log', function(data) {
+        console.log('Got data: ' + data.toString());
+        $('#logs').append('<br />' + data.toString());
+      });
+    });

@@ -5,5 +5,5 @@ exports.index = function(req, res) {
 }
 
 exports.findAllAvailableServers = function(req, res) {
-  res.send(server.getAllAvailableServers());
+  res.send( server.getAllAvailableServers() );
 }
