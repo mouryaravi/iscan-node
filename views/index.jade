@@ -1,17 +1,32 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Welcome to #{title}
   div#serverlist
+    ul
+      each server in servers_list
+        li
+          a(href='#', id="#{server.name}") #{server.name}
+
   div#logs
   script
-    $(document).ready(function() {
+    function getLogForServer(serverName) {
       var socket = io.connect('/');
-      socket.emit('server', {name: 'qa1'});
-      console.log("sending qa1 message...");
+      socket.emit('server', {name: serverName});
+      console.log("sending message for" + serverName);
       socket.on('log', function(data) {
         console.log('Got data: ' + data.toString());
         $('#logs').append('<br />' + data.toString());
       });
-    });
+    };
+  //- dump the script as jade doesn't have support to pass
+  //- java script variables into script block
+  != "\n<script type='text/javascript'>\n"
+  != "$(document).ready(function() {\n"
+    - each server in servers_list
+      != "$('#" + server.name + "').click(function() { \n"
+      != "alert('clicked " + server.name + " ');\n"
+      != "getLogForServer('" + server.name + "');\n"
+      != "});\n"
+  != "});\n"
+  != "</script>\n"
