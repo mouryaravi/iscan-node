@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  h1 Welcome to #{title}
+  h2 #{title}
   div#serverlist
     ul
       each server in servers_list
@@ -25,7 +25,7 @@ block content
   != "$(document).ready(function() {\n"
     - each server in servers_list
       != "$('#" + server.name + "').click(function() { \n"
-      != "alert('clicked " + server.name + " ');\n"
+      //-!= "alert('clicked " + server.name + " ');\n"
       != "getLogForServer('" + server.name + "');\n"
       != "});\n"
   != "});\n"

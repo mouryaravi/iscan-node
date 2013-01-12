@@ -34,3 +34,9 @@ http_server.listen(app.get('port'), function(){
 });
 
 socket_io_controller.setListeners(io_listener);
+
+process.on('SIGINT', function() {
+  socket_io_controller.shutdown();
+  console.log('Shutting down...');
+  process.exit(0);
+});

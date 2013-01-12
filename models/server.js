@@ -41,6 +41,26 @@ exports.getAllAvailableServers = function() {
       ],
       host_name: 'qa2b.corp.crowdfactory.com',
       port:'22216'
+    },
+    {
+      name: 'cdev1a',
+      apps: [
+        'insight',
+        'platform',
+        'api'
+      ],
+      host_name: 'cdev1a.corp.crowdfactory.com',
+      port:'22217'
+    },
+    {
+      name: 'cdev1b',
+      apps: [
+        'insight',
+        'platform',
+        'api'
+      ],
+      host_name: 'cdev1b.corp.crowdfactory.com',
+      port:'22218'
     }
   ];
 }

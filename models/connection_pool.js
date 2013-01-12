@@ -27,3 +27,12 @@ function getNewConnection(server_name) {
   var ssh_conn = ssh.getSSHConnection(server);
   return ssh_conn;
 }
+
+function exitConnection(conn, index, list) {
+  conn.emit('close');
+}
+
+exports.shutdown = function() {
+  console.log("Cleaning up connections...");
+  _.each(_.values(connections), exitConnection);
+}

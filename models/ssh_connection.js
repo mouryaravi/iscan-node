@@ -3,7 +3,9 @@ var _ = require('underscore');
 var request_pool = require('./client_server_request_map.js');
 
 function send_data(response_io, data) {
-  response_io.emit('log', data);
+  if (response_io != null) {
+    response_io.emit('log', data);
+  }
 }
 
 exports.getSSHConnection = function(server) {
@@ -19,7 +21,7 @@ exports.getSSHConnection = function(server) {
       stream.on('data', function(data, extended) {
         var data_str = data.toString("utf8");
         data_str = data_str.replace(/\n/g, '<br />');
-        var client_sockets = request_pool.getRequests(server.name);
+        var client_sockets = request_pool.getCompactedRequests(server.name);
         console.log("Got sockets: " + client_sockets.length);
         console.log("Data got from server: " + server.name + ": " + data_str);
         client_sockets.forEach(function(entry) {
