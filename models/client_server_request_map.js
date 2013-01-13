@@ -15,6 +15,15 @@ exports.getCompactedRequests = function(server_name) {
   return request_map[server_name];
 }
 
+exports.removeClientConnections = function(server_name) {
+  var requests = this.getCompactedRequests(server_name);
+  if (requests.length > 0) {
+    _.each(requests, closeSocket);
+    console.log("Deleting all requests for server: " + server_name);
+    delete request_map[server_name];
+  }
+}
+
 exports.remove_socket = function(server_name, request_id) {
   var requests = this.getCompactedRequests(server_name);
   console.log("Requests count: " + requests.length);
@@ -34,6 +43,7 @@ exports.remove_socket = function(server_name, request_id) {
 }
 
 function closeSocket(socket, index, list) {
+  socket.emit('error', 'Connection closed. Refresh or restart server!');
   socket.disconnect();
 }
 

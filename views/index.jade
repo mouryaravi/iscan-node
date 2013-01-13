@@ -14,9 +14,13 @@ block content
       var socket = io.connect('/');
       socket.emit('server', {name: serverName});
       console.log("sending message for" + serverName);
-      socket.on('log', function(data) {
+      socket.on(serverName, function(data) {
         console.log('Got data: ' + data.toString());
         $('#logs').append('<br />' + data.toString());
+      });
+      socket.on('error', function(data) {
+        console.log('Got error: ' + data.toString());
+        $('#logs').append('<br /> <div color=\'#FE0E0E\'><b>' + data.toString() + '</b></div>');
       });
     };
   //- dump the script as jade doesn't have support to pass

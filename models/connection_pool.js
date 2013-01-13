@@ -15,6 +15,12 @@ exports.getConnection = function(server_name) {
   return newConnection;
 }
 
+exports.removeConnection = function(server_name) {
+  if (_.has(connections, server_name)) {
+    console.log("Removing server connection from cache for server: " + server_name);
+    delete connections[server_name];
+  }
+}
 
 function getNewConnection(server_name) {
   console.log("Creating new connection for server: " + server_name);

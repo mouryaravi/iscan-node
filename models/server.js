@@ -61,6 +61,16 @@ exports.getAllAvailableServers = function() {
       ],
       host_name: 'cdev1b.corp.crowdfactory.com',
       port:'22218'
+    },
+    {
+      name: 'scdev',
+      apps: [
+        'insight',
+        'platform',
+        'api'
+      ],
+      host_name: 'scdev.corp.crowdfactory.com',
+      port:'22210'
     }
   ];
 }
