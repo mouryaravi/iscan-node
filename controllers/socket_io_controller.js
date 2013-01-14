@@ -2,6 +2,7 @@ var server = require('../models/server');
 var _ = require('underscore');
 var connection_pool = require('../models/connection_pool');
 var request_pool = require('../models/client_server_request_map.js');
+var config = require('../models/config');
 
 var socket_id = 0;
 
@@ -34,8 +35,12 @@ function create_bidirectional_channel(socket, server_name) {
     socket.emit(server_name, 'Fetching logs for server: ' + server_name + '...');
 
     request_pool.addRequest(server_name, socket);
-    var server_conn = connection_pool.getConnection(server_name);
-    //send_periodic_data(socket, server_name);
+    if (config.get('use_ssh')) {
+      var server_conn = connection_pool.getConnection(server_name);
+    }
+    else {
+      send_periodic_data(socket, server_name);
+    }
   }
 }
 function send_periodic_data(socket, server_name) {

@@ -43,7 +43,7 @@ exports.remove_socket = function(server_name, request_id) {
 }
 
 function closeSocket(socket, index, list) {
-  socket.emit('error', 'Connection closed. Refresh or restart server!');
+  socket.emit('error', 'Connection closed. Refresh or restart server');
   socket.disconnect();
 }
 

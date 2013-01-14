@@ -3,14 +3,18 @@ var express = require('express')
   , http = require('http')
   , io = require('socket.io')
   , path = require('path')
-  , socket_io_controller = require('./controllers/socket_io_controller');
+  , socket_io_controller = require('./controllers/socket_io_controller')
+  , config = require('./models/config');
 
 var app = express();
 var http_server = http.createServer(app);
 var io_listener = io.listen(http_server);
 
+
+config.loadConfig();
+
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', config.get('port'));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());

@@ -2,6 +2,7 @@ var Connection=require('ssh2');
 var _ = require('underscore');
 var request_pool = require('./client_server_request_map.js');
 var connection_pool = require('./connection_pool');
+var config = require('./config');
 
 function send_data(server_name, data) {
   var client_sockets = request_pool.getCompactedRequests(server_name);
@@ -62,9 +63,9 @@ exports.getSSHConnection = function(server) {
   c.connect({
     host:server.host_name,
     port:server.port,
-    username:'ravi',
-    password:'xxxxxx',
-    pingInterval:10
+    username:config.get('username'),
+    password:config.get('password'),
+    pingInterval:config.get('pingInterval')
   });
 
   return c;

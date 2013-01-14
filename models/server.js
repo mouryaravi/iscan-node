@@ -1,78 +1,8 @@
 var _ = require("underscore");
+var config = require("./config");
 
 exports.getAllAvailableServers = function() {
-  return [
-    {
-      name: 'qa1a', 
-      apps: [
-        'insight',
-        'platform',
-        'api'
-      ],
-      host_name: 'qa1a.corp.crowdfactory.com',
-      port:'22213'
-    },
-    {
-      name: 'qa1b', 
-      apps: [
-        'insight',
-        'platform',
-        'api'
-      ],
-      host_name: 'qa1b.corp.crowdfactory.com',
-      port:'22214'
-    },
-    {
-      name: 'qa2a',
-      apps: [
-        'insight',
-        'platform',
-        'api'
-      ],
-      host_name: 'qa2a.corp.crowdfactory.com',
-      port:'22215'
-    },
-    {
-      name: 'qa2b',
-      apps: [
-        'insight',
-        'platform',
-        'api'
-      ],
-      host_name: 'qa2b.corp.crowdfactory.com',
-      port:'22216'
-    },
-    {
-      name: 'cdev1a',
-      apps: [
-        'insight',
-        'platform',
-        'api'
-      ],
-      host_name: 'cdev1a.corp.crowdfactory.com',
-      port:'22217'
-    },
-    {
-      name: 'cdev1b',
-      apps: [
-        'insight',
-        'platform',
-        'api'
-      ],
-      host_name: 'cdev1b.corp.crowdfactory.com',
-      port:'22218'
-    },
-    {
-      name: 'scdev',
-      apps: [
-        'insight',
-        'platform',
-        'api'
-      ],
-      host_name: 'scdev.corp.crowdfactory.com',
-      port:'22210'
-    }
-  ];
+  return config.get('servers');
 }
 
 exports.getServerByName = function(server_name) {
