@@ -6,8 +6,10 @@ var config = require('./config');
 
 function send_data(server_name, data) {
   var client_sockets = request_pool.getCompactedRequests(server_name);
-  console.log("Got sockets for server: " + server_name  + ", count: " + client_sockets.length);
-  console.log("Data got from server: " + server_name + ", length: " + data.length);
+  if (server_name !== 'self') {
+    console.log("Got sockets for server: " + server_name  + ", count: " + client_sockets.length);
+    console.log("Data got from server: " + server_name + ", length: " + data.length);
+  }
   client_sockets.forEach(function(entry) {
     if (entry != null) {
       entry.emit(server_name, data);
