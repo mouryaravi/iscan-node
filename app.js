@@ -37,6 +37,11 @@ http_server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
+
+io_listener.configure(function () {
+  io_listener.set('transports', ['xhr-polling']);
+});
+
 socket_io_controller.setListeners(io_listener);
 
 process.on('SIGINT', function() {

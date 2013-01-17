@@ -21,7 +21,7 @@ function onServerDisconnect(server_name) {
 }
 
 exports.getSSHConnection = function(server) {
-  var command = "tail -f /home/jboss/insight/tomcat-7.0.27/logs/server.log  /home/jboss/insight/tomcat-7.0.27/logs/api.log /home/jboss/universe/tomcat-7.0.27/logs/server.log";
+  var command = server.command;
   var c = new Connection();
   c.on('connect', function() {
     console.log("Connection:: connection");
