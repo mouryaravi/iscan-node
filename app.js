@@ -40,8 +40,8 @@ http_server.listen(app.get('port'), function(){
 
 io_listener.configure('production', function () {
   io_listener.set('transports', ['xhr-polling']);
-  io.enable('browser client etag');
-  io.set('log level', 1);
+  io_listener.enable('browser client etag');
+  io_listener.set('log level', 1);
 });
 
 socket_io_controller.setListeners(io_listener);
