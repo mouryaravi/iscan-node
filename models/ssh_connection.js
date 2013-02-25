@@ -1,4 +1,4 @@
-var Connection=require('ssh2');
+var Connection = require('ssh2');
 var _ = require('underscore');
 var request_pool = require('./client_server_request_map.js');
 var connection_pool = require('./connection_pool');
@@ -30,23 +30,25 @@ exports.getSSHConnection = function(server) {
   });
 
   c.on('ready', function() {
-    console.log("Connection::ready");
+    console.log("Connection::ready for server: " + server.name);
     c.exec(command, function(err, stream) {
       stream.on('data', function(data, extended) {
         var data_str = data.toString("utf8");
         data_str = data_str.replace(/\n/g, '<br />');
-        send_data(server.name, data_str);
+        if (data_str.indexOf("org.quartz.plugins.history.LoggingTriggerHistoryPlugin") == -1) {
+	        send_data(server.name, data_str);
+        }
       });
       stream.on('end', function() {
-        console.log('Stream :: EOF');
+        console.log('Stream :: EOF for server: ' + server.name);
         onServerDisconnect(server.name);
       });
       stream.on('close', function() {
-        console.log('Stream :: Close');
+        console.log('Stream :: Close for server: ' + server.name);
         onServerDisconnect(server.name);
       });
       stream.on('exit', function(code, signal) {
-        console.log('Stream:: exit:: code: ' + code + ", signal: " + signal);
+        console.log('Stream:: exit:: code: ' + code + ", signal: " + signal + " for server: " + server.name);
         c.end();
         onServerDisconnect(server.name);
       });

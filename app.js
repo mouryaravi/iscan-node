@@ -10,7 +10,6 @@ var app = express();
 var http_server = http.createServer(app);
 var io_listener = io.listen(http_server);
 
-
 config.loadConfig();
 
 app.configure(function(){
