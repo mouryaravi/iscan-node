@@ -9,10 +9,9 @@ function getDataToSendAfterFiltering(data) {
 	var lines = data.split('\n');
 	for(var idx = 0; idx < lines.length; idx++) {
 		if (lines[idx].indexOf("org.quartz.plugins.history.LoggingTriggerHistoryPlugin") == -1) {
-			filtered_data += lines[idx];
+			filtered_data += lines[idx] + "<br />";
 		}
 	}	
-  filtered_data = filtered_data.replace(/\n/g, '<br />');
   return filtered_data;
 }
 
