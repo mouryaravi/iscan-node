@@ -4,11 +4,24 @@ var request_pool = require('./client_server_request_map.js');
 var connection_pool = require('./connection_pool');
 var config = require('./config');
 
+function getDataToSendAfterFiltering(data) {
+	var filtered_data = "";
+	var lines = data.split('\n');
+	for(var idx = 0; idx < lines.length; idx++) {
+		if (lines[idx].indexOf("org.quartz.plugins.history.LoggingTriggerHistoryPlugin") == -1) {
+			filtered_data += lines[idx];
+		}
+	}	
+  filtered_data = filtered_data.replace(/\n/g, '<br />');
+  return filtered_data;
+}
+
 function send_data(server_name, data) {
   var client_sockets = request_pool.getCompactedRequests(server_name);
+  data = getDataToSendAfterFiltering(data);
   if (server_name !== 'self') {
-    console.log("Got sockets for server: " + server_name  + ", count: " + client_sockets.length);
-    console.log("Data got from server: " + server_name + ", length: " + data.length);
+    console.log("Got sockets for server: " + server_name  + ", connection count: " + 
+      client_sockets.length + ", data length: " + data.length);
   }
   client_sockets.forEach(function(entry) {
     if (entry != null) {
@@ -34,10 +47,7 @@ exports.getSSHConnection = function(server) {
     c.exec(command, function(err, stream) {
       stream.on('data', function(data, extended) {
         var data_str = data.toString("utf8");
-        data_str = data_str.replace(/\n/g, '<br />');
-        if (data_str.indexOf("org.quartz.plugins.history.LoggingTriggerHistoryPlugin") == -1) {
-	        send_data(server.name, data_str);
-        }
+	      	send_data(server.name, data_str);
       });
       stream.on('end', function() {
         console.log('Stream :: EOF for server: ' + server.name);
