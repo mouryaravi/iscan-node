@@ -54,6 +54,7 @@ exports.getSSHConnection = function(server) {
       });
       stream.on('close', function() {
         console.log('Stream :: Close for server: ' + server.name);
+        c.end();
         onServerDisconnect(server.name);
       });
       stream.on('exit', function(code, signal) {
