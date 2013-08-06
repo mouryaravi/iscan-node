@@ -35,6 +35,7 @@ function onServerDisconnect(server_name) {
 }
 
 exports.getSSHConnection = function(server) {
+  var localStream;
   var command = server.command;
   var c = new Connection();
   c.on('connect', function() {
@@ -44,6 +45,7 @@ exports.getSSHConnection = function(server) {
   c.on('ready', function() {
     console.log("Connection::ready for server: " + server.name);
     c.exec(command, function(err, stream) {
+      localStream = stream;
       stream.on('data', function(data, extended) {
         var data_str = data.toString("utf8");
 	      	send_data(server.name, data_str);
@@ -55,7 +57,6 @@ exports.getSSHConnection = function(server) {
       stream.on('close', function() {
         console.log('Stream :: Close for server: ' + server.name);
         c.end();
-        stream.signal('KILL');
         onServerDisconnect(server.name);
       });
       stream.on('exit', function(code, signal) {
@@ -73,6 +74,7 @@ exports.getSSHConnection = function(server) {
   c.on('close', function() {
     console.log('Connection: close');
     onServerDisconnect(server.name);
+    localStream.signal('KILL');
   });
 
   c.connect({
