@@ -14,7 +14,7 @@ exports.getExistingConnection = function(server_name) {
 }
 
 exports.getConnection = function(server_name) {
-  var existingConn = getExistingConnection(server_name);
+  var existingConn = this.getExistingConnection(server_name);
   if (existingConn != null) {
     return existingConn;
   }
