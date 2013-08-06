@@ -5,10 +5,18 @@ var ssh = require('./ssh_connection');
 
 var connections = {};
 
-exports.getConnection = function(server_name) {
+exports.getExistingConnection = function(server_name) {
   if (_.has(connections, server_name)) {
     console.log("Got server connection from cache for server: " + server_name);
     return connections[server_name];
+  }
+  return null;
+}
+
+exports.getConnection = function(server_name) {
+  var existingConn = getExistingConnection(server_name);
+  if (existingConn != null) {
+    return existingConn;
   }
   var newConnection = getNewConnection(server_name);
   connections[server_name] = newConnection;

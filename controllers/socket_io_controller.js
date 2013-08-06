@@ -22,9 +22,21 @@ exports.setListeners = function(io_listener) {
           console.log("Socket IO request id to delete: " + request_id);
           request_pool.remove_socket(name, request_id);
         });
+        clear_connections_if_last_client(name);
       });
     });
   });
+}
+
+function clear_connections_if_last_client(server_name) {
+  var requests = request_pool.getCompactedRequests(server_name);
+  if (requests.length == 0) {
+    var conn = connection_pool.getExistingConnection(server_name);
+    if (conn != null) {
+      conn.emit('close');
+    }
+  }
+
 }
 
 function create_bidirectional_channel(socket, server_name) {
